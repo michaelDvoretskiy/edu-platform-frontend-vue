@@ -1,16 +1,14 @@
 <script setup>
 import {onMounted} from "vue";
-onMounted(() => {
-    setTimeout(function () {
-        if ($('#spinner').length > 0) {
-            $('#spinner').removeClass('show');
-        }
-    }, 1);
-});
+
+defineProps({
+  show: Boolean
+})
+
 </script>
 <template>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div id="spinner" :class="{'show': show}" class="bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->

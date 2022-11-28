@@ -39,7 +39,7 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/courses-1.jpg" alt="">
+                            <img class="img-fluid" src="/img/courses-1.jpg" alt="">
                             <div class="causes-overlay">
                                 <a class="btn btn-outline-primary" href="">
                                     Read More
@@ -72,7 +72,7 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/courses-2.jpg" alt="">
+                            <img class="img-fluid" src="/img/courses-2.jpg" alt="">
                             <div class="causes-overlay">
                                 <a class="btn btn-outline-primary" href="">
                                     Read More
@@ -105,7 +105,7 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="position-relative mt-auto">
-                            <img class="img-fluid" src="img/courses-3.jpg" alt="">
+                            <img class="img-fluid" src="/img/courses-3.jpg" alt="">
                             <div class="causes-overlay">
                                 <a class="btn btn-outline-primary" href="">
                                     Read More

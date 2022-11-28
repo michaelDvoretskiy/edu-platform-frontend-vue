@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { locales, getLocale, setLocale } from "../locales";
+import { getLocale, setLocale, checkLocale } from "../locales";
 
 const routes = [
     { path: '/', redirect: to => `/uk`},
@@ -28,8 +28,8 @@ router.beforeEach((to, from, next) => {
   if((!locale && to.name)) {
     return next({name: to.name, params: {... to.params, locale: getLocale()}});
   }
-  if (locales.indexOf(locale) == -1) {
-    to.params.locale = getLocale();
+  if (locale != checkLocale(locale)) {
+    to.params.locale = checkLocale(locale);
     return next({name: to.name, params: to.params})
   }
   setLocale(to.params.locale)
