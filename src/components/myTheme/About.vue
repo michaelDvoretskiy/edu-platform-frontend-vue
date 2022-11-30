@@ -4,11 +4,14 @@ import {onMounted, ref} from "vue";
 import {PageDataGetter} from "/src/services/api/PageDataGetter.js";
 
 const data = ref({})
+const emit = defineEmits(['pageTitle'])
 
 onMounted(() => {
   PageDataGetter.getPageData('about').then( res => {
     data.value = res
-    console.log(data.value)
+    if (res.title) {
+      emit('pageTitle', res.title)
+    }
   })
 })
 </script>
