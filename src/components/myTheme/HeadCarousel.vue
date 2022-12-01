@@ -1,30 +1,44 @@
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
+import {InfoGetter} from "/src/services/api/InfoGetter.js";
 
-const carouselImages = ref([
-  {path: '/img/carousel-1.jpg', active: true},
-  {path: '/img/carousel-2.jpg', active: false},
-])
+const data = ref({})
+
+onMounted(() => {
+  InfoGetter.getHomeCarousel().then( res => {
+    data.value = res
+    console.log(res)
+  })
+})
+
 </script>
 <template>
     <!-- Carousel Start -->
     <div class="container-fluid p-0 mb-5">
-        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel" v-if="data && data[0]">
             <div class="carousel-inner">
-                <div class="carousel-item" v-for="carouselImage in carouselImages" :class="{'active' : carouselImage.active}" >
-                    <img class="w-100" :src="carouselImage.path" alt="Image">
+                <div class="carousel-item" v-for="(item, index) in data" :class="{'active' : index == 0}" >
+                    <img class="w-100" :src="item.img_path" alt="Image">
                     <div class="carousel-caption">
                         <div class="container">
                             <div class="row justify-content-center">
                                 <div class="col-lg-7 pt-5">
-                                    <h1 class="display-4 text-white mb-3 animated slideInDown">Let's Change The World With Humanity</h1>
-                                    <p class="fs-5 text-white-50 mb-5 animated slideInDown">Aliqu diam amet diam et eos. Clita erat ipsum et lorem sed stet lorem sit clita duo justo erat amet</p>
-                                    <a class="btn btn-primary py-2 px-3 animated slideInDown" href="">
-                                        Learn More
-                                        <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
-                                            <i class="fa fa-arrow-right"></i>
-                                        </div>
-                                    </a>
+                                    <h1 class="display-4 text-white mb-3 animated slideInDown">
+                                      {{ item.title }}
+                                    </h1>
+                                    <p class="fs-5 text-white-80 mb-5 animated slideInDown">
+                                      {{ item.content_text }}
+                                    </p>
+<!--                                    <a class="btn btn-primary py-2 px-3 animated slideInDown" v-if="item.btn_flag == 1" href="">-->
+                                    <RouterLink class="btn btn-primary py-2 px-3 animated slideInDown" v-if="item.btn_flag == 1"
+                                       :to="{ name: item.link}">
+                                      {{ item.link_title }}
+                                      <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
+                                        <i class="fa fa-arrow-right"></i>
+                                      </div>
+                                    </RouterLink>
+
+<!--                                    </a>-->
                                 </div>
                             </div>
                         </div>
