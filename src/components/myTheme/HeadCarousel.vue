@@ -7,7 +7,6 @@ const data = ref({})
 onMounted(() => {
   InfoGetter.getHomeCarousel().then( res => {
     data.value = res
-    console.log(res)
   })
 })
 

@@ -2,12 +2,9 @@
 import {onMounted} from "vue";
 
 import About from "/src/components/myTheme/About.vue";
-import Causes from "/src/components/myTheme/Causes.vue";
-import Doings from "/src/components/myTheme/Doings.vue";
-import Donates from "/src/components/myTheme/Donates.vue";
 import Team from "/src/components/myTheme/Team.vue";
-import Testimonial from "/src/components/myTheme/Testimonial.vue";
 import HeadCarousel from "/src/components/myTheme/HeadCarousel.vue";
+import CourseCategories from "/src/components/myTheme/CourseCategories.vue";
 
 onMounted(() => {
     new WOW().init();
@@ -17,9 +14,9 @@ onMounted(() => {
 <template>
   <HeadCarousel/>
   <About/>
-  <Causes/>
-  <Doings/>
-  <Donates/>
+<!--  <Causes/>-->
+  <CourseCategories/>
+<!--  <Donates/>-->
   <Team/>
-  <Testimonial/>
+<!--  <Testimonial/>-->
 </template>

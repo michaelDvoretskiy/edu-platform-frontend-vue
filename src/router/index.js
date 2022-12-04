@@ -5,16 +5,28 @@ const routes = [
     { path: '/', redirect: to => `/uk`},
     {
       path: '/:locale?',
-      children: [{
-        path: '',
-        name: 'Home',
-        component: () => import('../views/myTheme/Home.vue')
-      },
-      {
-        path: 'about',
-        name: 'About',
-        component: () => import('../views/myTheme/About.vue')
-      }]
+      children: [
+        {
+          path: '',
+          name: 'Home',
+          component: () => import('../views/myTheme/Home.vue')
+        },
+        {
+          path: 'about',
+          name: 'About',
+          component: () => import('../views/myTheme/About.vue')
+        },
+        {
+          path: 'categories',
+          name: 'Categories',
+          component: () => import('../views/myTheme/Categories.vue')
+        },
+        {
+          path: 'category/:category?',
+          name: 'Category',
+          component: () => import('../views/myTheme/About.vue')
+        }
+      ]
     }
   ];
 
