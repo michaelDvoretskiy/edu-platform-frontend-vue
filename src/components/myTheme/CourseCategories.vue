@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref} from "vue";
 import {CoursesDataGetter} from "/src/services/api/CoursesDataGetter.js";
-import {PageDataGetter} from "../../services/api/PageDataGetter";
+import {PageDataGetter} from "/src/services/api/PageDataGetter";
 
 const pageData = ref({})
 const categoriesList = ref({})
