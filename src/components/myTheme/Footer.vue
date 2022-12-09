@@ -18,7 +18,7 @@ defineProps({
                   </div>
                 </div>
                 <div class="col-md-5 mt-3 mt-md-5">
-                    <h5 class="text-light mb-2">Address</h5>
+                    <h5 class="text-light mb-2">{{ infoData.info.addressTitle }}</h5>
                     <p v-if="infoData.info.address">
                       <i class="fa fa-map-marker-alt me-3"></i>{{ infoData.info.address }}
                     </p>
@@ -27,7 +27,7 @@ defineProps({
                     </p>
                 </div>
                 <div class="col-md-3 mt-1 mt-md-5">
-                    <h5 class="text-light mb-2">Quick Links</h5>
+                    <h5 class="text-light mb-2">{{ infoData.info.quickLinksTitle }}</h5>
                     <a v-for="link in infoData.menu" class="btn btn-link"
                        :href="$router.resolve({name: link.link}).href">
                       {{ link.title }}
@@ -39,7 +39,7 @@ defineProps({
             <div class="container">
                 <div class="row">
                     <div class="col-12 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">Mykhailo Dvoretskyi</a>, All Right Reserved.
+                        &copy; {{ infoData.info.rightsReserved }}
                     </div>
                 </div>
             </div>
