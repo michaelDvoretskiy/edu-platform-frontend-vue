@@ -36,12 +36,14 @@ onMounted(() => {
                       </div>
                       <div class="p-4">
                         <h4 class="mb-3">{{ category.title }}</h4>
-                        <a class="btn btn-outline-primary px-3" href="">
+<!--                        <a class="btn btn-outline-primary px-3" href="">-->
+                        <RouterLink class="btn btn-outline-primary px-3" :to="{ name: category.link, params: category.link_params}">
                           {{ category.link_title }}
                           <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
                             <i class="fa fa-arrow-right"></i>
                           </div>
-                        </a>
+                        </RouterLink>
+<!--                        </a>-->
                         <p class="mt-4 mb-0" style="font-size: 0.9em;">{{ category.content_text }}</p>
                       </div>
                     </div>

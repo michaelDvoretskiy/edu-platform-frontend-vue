@@ -4,14 +4,6 @@ import About from "/src/components/myTheme/About.vue";
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import CourseCategories from "/src/components/myTheme/CourseCategories.vue";
 
-defineProps({
-    headerInfo: Object,
-    canLogin: Boolean,
-    canRegister: Boolean,
-    laravelVersion: String,
-    phpVersion: String,
-})
-
 const title = ref('')
 
 onMounted(() => {
