@@ -13,4 +13,9 @@ export class CoursesDataGetter {
     return fetch(BaseMethods.getUrl(this.#prefix + '/category/' + name))
       .then(response => response.json()).then(data => data.data);
   }
+
+  static getCourse(name) {
+    return fetch(BaseMethods.getUrl(this.#prefix + '/course/' + name))
+      .then(response => response.json()).then(data => data.data);
+  }
 }

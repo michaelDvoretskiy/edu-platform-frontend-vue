@@ -23,11 +23,10 @@ onMounted(() => {
             <div class="row g-5" v-if="data && data.dataParts">
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="position-relative overflow-hidden h-100" style="min-height: 400px;">
-                        <img class="position-absolute w-100 h-100 pt-5 pe-5" :src="data.dataParts.img2Path" alt="" style="object-fit: cover;">
+                      <img class="position-absolute w-100 h-100 pt-5 pe-5" :src="data.dataParts.img2Path" alt="" style="object-fit: cover;">
                       <div>
                         <img class="position-absolute top-0 end-0 bg-white ps-2 pb-2" :src="data.dataParts.img1Path" alt="" style="width: 200px; height: 200px;">
                       </div>
-
                     </div>
                 </div>
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
@@ -36,10 +35,6 @@ onMounted(() => {
                           {{ data.title }}
                         </div>
                         <h1 class="display-6 mb-5">{{ data.dataParts.headerText }}</h1>
-<!--                        <div class="bg-light border-bottom border-5 border-primary rounded p-4 mb-4">-->
-<!--                            <p class="text-dark mb-2">Aliqu diam amet diam et eos. Clita erat ipsum et lorem sed stet lorem sit clita duo justo erat amet</p>-->
-<!--                            <span class="text-primary">Jhon Doe, Founder</span>-->
-<!--                        </div>-->
                         <p class="mb-2">{{ data.dataParts.text1 }}</p>
 
                         <p class="mb-2 mt-4">{{ data.dataParts.text2 }}</p>
