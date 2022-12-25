@@ -9,6 +9,17 @@ const course = ref({})
 
 const route = useRoute()
 
+function getLangIconClass(lng)
+{
+  if (lng == "uk") {
+    return "fi fi-ua fis";
+  }
+  if (lng == "pl") {
+    return "fi fi-pl fis";
+  }
+  return "fi fi-gb fis";
+}
+
 onMounted(() => {
   CoursesDataGetter.getCourse(route.params.course).then( res => {
     course.value = res
@@ -34,11 +45,75 @@ onMounted(() => {
           <h3 class="text-black-50">{{ course.description }}</h3>
         </div>
       </div>
-      <div class="row card m-2" v-for="lesson in course.lessons">
-        <h5 class="card-title col-md-4 col-lg-3 m-2">{{ lesson.title }}</h5>
-        <p class="card-text col-md-6 col-lg-7">{{ lesson.description }}</p>
+      <div class="row m-3 p-3 text-center border lesson position-relative" v-for="lesson in course.lessons">
+        <div class="col-md-4 col-lg-3 align-items-center d-flex" style="justify-content: space-around;">
+          <h5 class="title">{{ lesson.title }}</h5>
+        </div>
+        <div class="col-md-6 col-lg-7">{{ lesson.description }}</div>
+        <div class="lng col-md-1 align-items-center d-flex mt-3 mb-3" style="justify-content: space-around;">
+          <div>
+            <span v-for="lng in lesson.languages" :class="getLangIconClass(lng)" class="m-1 lng"></span>
+          </div>
+        </div>
+        <div class="info col-md-1 align-items-center d-flex" style="justify-content: space-around;">
+          <div>
+            <i v-if="lesson.hasPdf" class="fas fa-file-pdf m-1"></i>
+            <i v-if="lesson.hasVideo" class="fas fa-video m-1"></i>
+            <i v-if="lesson.hasTasks" class="fas fa-tasks m-1"></i>
+          </div>
+        </div>
+        <div class="lesson-overlay">
+          <div class="mb-3 text-white">{{ lesson.title }}</div>
+          <div>
+            <a class="btn btn-outline-primary" href="">
+              Read More
+              <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
+                <i class="fa fa-arrow-right"></i>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <!-- Cause End -->
 </template>
+<style scoped>
+  .lesson .lesson-overlay {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .7);
+    overflow: hidden;
+    opacity: 0;
+    transition: .5s;
+  }
+
+  .lesson:hover .lesson-overlay {
+    height: 100%;
+    opacity: 1;
+  }
+  .lesson:nth-child(even) {
+    background-color: #FFF0E6;
+  }
+  .lesson:nth-child(odd) {
+    background-color: #fdf8f4;
+  }
+  .lesson .title {
+    color: #FF6F0F;
+  }
+  .info i {
+    font-size: 1.5em;
+    color: #FF6F0F;
+  }
+  span.lng {
+    font-size: 1.5em;
+    border-radius: 5px;
+  }
+</style>
