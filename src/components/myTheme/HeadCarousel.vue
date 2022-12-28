@@ -30,7 +30,7 @@ onMounted(() => {
                                     </p>
 <!--                                    <a class="btn btn-primary py-2 px-3 animated slideInDown" v-if="item.btn_flag == 1" href="">-->
                                     <RouterLink class="btn btn-primary py-2 px-3 animated slideInDown" v-if="item.btn_flag == 1"
-                                       :to="{ name: item.link}">
+                                       :to="{ name: item.link, params: item.link_params }">
                                       {{ item.link_title }}
                                       <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
                                         <i class="fa fa-arrow-right"></i>

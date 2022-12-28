@@ -27,7 +27,7 @@ onMounted(() => {
             <div class="mb-3 text-white">{{ course.title }}</div>
             <div>
               <RouterLink class="btn btn-outline-primary" :to="{ name: 'Lessons', params: {'course': course.name}}">
-                Read More
+                {{ course.link_title }}
                 <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
                   <i class="fa fa-arrow-right"></i>
                 </div>

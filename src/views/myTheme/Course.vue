@@ -66,7 +66,7 @@ onMounted(() => {
           <div class="mb-3 text-white">{{ lesson.title }}</div>
           <div>
             <a class="btn btn-outline-primary" href="">
-              Read More
+              {{ lesson.link_title }}
               <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
                 <i class="fa fa-arrow-right"></i>
               </div>

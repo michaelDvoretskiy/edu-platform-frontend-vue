@@ -37,7 +37,7 @@ onMounted(() => {
                       <div class="p-4">
                         <h4 class="mb-3">{{ category.title }}</h4>
 <!--                        <a class="btn btn-outline-primary px-3" href="">-->
-                        <RouterLink class="btn btn-outline-primary px-3" :to="{ name: category.link, params: category.link_params}">
+                        <RouterLink class="btn btn-outline-primary px-3" :to="{ name: 'Courses', params: {'category': category.name} }">
                           {{ category.link_title }}
                           <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
                             <i class="fa fa-arrow-right"></i>
