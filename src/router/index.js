@@ -32,11 +32,10 @@ const routes = [
           component: () => import('../views/myTheme/Course.vue')
         },
         {
-          path: 'category/:category?',
-          name: 'Category',
-          component: () => import('../views/myTheme/About.vue')
-        }
-      ]
+          path: 'lesson/:lesson',
+          name: 'Lesson',
+          component: () => import('../views/myTheme/Lesson.vue')
+        }      ]
     }
   ];
 

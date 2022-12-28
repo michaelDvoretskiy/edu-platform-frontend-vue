@@ -45,7 +45,7 @@ onMounted(() => {
           <h3 class="text-black-50">{{ course.description }}</h3>
         </div>
       </div>
-      <div class="row m-3 p-3 text-center border lesson position-relative" v-for="lesson in course.lessons">
+      <div class="row m-3 p-3 text-center border lesson position-relative wow fadeInUp" data-wow-delay="0.2s" v-for="lesson in course.lessons">
         <div class="col-md-4 col-lg-3 align-items-center d-flex" style="justify-content: space-around;">
           <h5 class="title">{{ lesson.title }}</h5>
         </div>
@@ -65,12 +65,14 @@ onMounted(() => {
         <div class="lesson-overlay">
           <div class="mb-3 text-white">{{ lesson.title }}</div>
           <div>
-            <a class="btn btn-outline-primary" href="">
+<!--            <a class="btn btn-outline-primary" href="">-->
+            <RouterLink class="btn btn-outline-primary" :to="{ name: 'Lesson', params: {'lesson': lesson.name}}">
               {{ lesson.link_title }}
               <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
                 <i class="fa fa-arrow-right"></i>
               </div>
-            </a>
+            </RouterLink>
+<!--            </a>-->
           </div>
         </div>
       </div>
