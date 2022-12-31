@@ -31,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <PageHeader :title="course.title"/>
+  <PageHeader :title="course.title" :menu="course.headerLink"/>
 
   <!-- Cause Start -->
   <div class="container-xxl py-5" v-if="course.title">

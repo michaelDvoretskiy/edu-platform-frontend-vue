@@ -57,7 +57,7 @@ function changeVisability(type, index) {
 </script>
 
 <template>
-  <PageHeader :title="lesson.title"/>
+  <PageHeader :title="lesson.title" :menu="lesson.headerLink"/>
 
   <div class="container-xxl py-5" v-if="lesson.title">
     <div class="container">

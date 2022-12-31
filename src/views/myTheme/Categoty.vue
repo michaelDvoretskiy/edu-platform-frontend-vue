@@ -20,7 +20,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <PageHeader :title="category.title"/>
+  <PageHeader :title="category.title" :menu="category.headerLink"/>
 
   <!-- Causes Start -->
   <div class="container-xxl py-5" v-if="category.title">
