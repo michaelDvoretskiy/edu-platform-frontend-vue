@@ -35,7 +35,23 @@ const routes = [
           path: 'lesson/:lesson',
           name: 'Lesson',
           component: () => import('../views/myTheme/Lesson.vue')
-        }      ]
+        },
+        {
+          path: 'login',
+          name: 'Login',
+          component: () => import('../views/myTheme/Login.vue')
+        },
+        {
+          path: 'register',
+          name: 'Register',
+          component: () => import('../views/myTheme/Register.vue')
+        },
+        {
+          path: 'forgot-pass',
+          name: 'ForgotPass',
+          component: () => import('../views/myTheme/ForgotPass.vue')
+        },
+      ]
     }
   ];
 

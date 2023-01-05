@@ -15,7 +15,15 @@ export class CoursesDataGetter {
   }
 
   static getCourse(name) {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/course/' + name))
+    let options = {
+      method: "GET",
+    };
+    let token = localStorage.getItem('token')
+    if (token) {
+      options['headers'] = { "Authorization": `Bearer ${token}` };
+    }
+
+    return fetch(BaseMethods.getUrl(this.#prefix + '/course/' + name), options)
       .then(response => response.json()).then(data => data.data);
   }
 

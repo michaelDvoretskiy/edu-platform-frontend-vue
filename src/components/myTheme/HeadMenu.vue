@@ -1,9 +1,25 @@
 <script setup>
-import {onMounted} from "vue";
+import {onMounted, computed, onUpdated, ref} from "vue";
 import Locales from "@/components/myTheme/Locales.vue";
+import {Auth} from "/src/services/api/Auth";
+import {useRouter} from "vue-router";
+import {getLocale} from "../../locales";
+
+const isLoggedIn = ref(false)
+const router = useRouter()
+const visible = ref(false)
+const userName = ref('')
+//const isLoggedIn = computed(() => Auth.isUserLoggedIn())
 
 defineProps({
   infoData: Object
+})
+
+onUpdated(() => {
+  isLoggedIn.value = Auth.isUserLoggedIn()
+  if (isLoggedIn.value) {
+    userName.value = Auth.getUserName()
+  }
 })
 
 onMounted(() => {
@@ -24,6 +40,12 @@ onMounted(() => {
         }
     });
 });
+
+function logout() {
+  let href = router.resolve({ name: 'Home', params: {locale: getLocale()}}).href
+  Auth.logout();
+  window.location.href = href
+}
 
 </script>
 <template>
@@ -46,24 +68,31 @@ onMounted(() => {
         </div>
 
         <nav class="navbar navbar-expand-lg navbar-dark py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
-<!--            <a href="/" class="navbar-brand ms-4 ms-lg-0">-->
               <RouterLink class="navbar-brand ms-4 ms-lg-0" :to="{ name: 'Home'}">
                 <h1 class="fw-bold text-primary m-0">{{ infoData.info.titleFirst }}<span class="text-white">{{ infoData.info.titleSecond }}</span></h1>
               </RouterLink>
-                <!--            </a>-->
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                    @click="visible=!visible">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-collapse" id="navbarCollapse" :class="!visible?'collapse':''">
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
-<!--                  <RouterLink v-for="link in headerInfo.menu" class="nav-item nav-link"-->
-<!--                              :to="{ name: link.link}">-->
-<!--                    {{ link.title }}-->
-<!--                  </RouterLink>-->
-                  <a v-for="link in infoData.menu" class="nav-item nav-link"
-                              :href="$router.resolve({name: link.link}).href">
+                  <RouterLink v-for="link in infoData.menu" class="nav-item nav-link" :to="{ name: link.link}"
+                              @click="visible=!visible">
                     {{ link.title }}
-                  </a>
+                  </RouterLink>
+                  <RouterLink v-if="!isLoggedIn" class="nav-item nav-link" :to="{ name: 'Login'}"
+                              @click="visible=!visible">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                  </RouterLink>
+                  <div v-if="isLoggedIn" class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ userName }}</a>
+                    <div class="dropdown-menu m-0">
+                      <a class="dropdown-item" href="" @click.prevent="logout">
+                        Logout <i class="fas fa-sign-out-alt"></i>
+                      </a>
+                    </div>
+                  </div>
                   <div class="nav-item nav-link">
                       <Locales/>
                   </div>
