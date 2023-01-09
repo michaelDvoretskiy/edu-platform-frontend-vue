@@ -7,8 +7,21 @@ export class Auth {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
-    })
-      .then(response => response.json()).then(data => data.data);
+    }).then(response => response.json()).then(data => data.data);
+  }
+
+  static getVarificationCode(email, type) {
+    return fetch(BaseMethods.getUrl( '/verif-code/' + type, {
+      email: email
+    })).then(response => response.json()).then(data => data.data);
+  }
+
+  static changePassword(userData) {
+    return fetch(BaseMethods.getUrl( '/restore-pass'), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData)
+    }).then(response => response.json()).then(data => data.data);
   }
 
   static logout() {

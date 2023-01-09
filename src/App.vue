@@ -4,13 +4,14 @@ import Spinner from "/src/components/myTheme/Spinner.vue";
 import HeadMenu from "/src/components/myTheme/HeadMenu.vue";
 import Footer from "/src/components/myTheme/Footer.vue";
 import BackToTop from "/src/components/myTheme/BackToTop.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, inject} from "vue";
 import {InfoGetter} from "/src/services/api/InfoGetter.js";
 import {checkLocale, setLocale} from "/src/locales/index.js";
 
 const infoData = ref({})
-const spinnerShow = ref(true)
+// const spinnerShow = ref(true)
 const route = useRoute()
+const spinnerShow = inject('spinnerShow')
 
 onMounted(() => {
   const locale =  checkLocale(route.params.locale)
@@ -21,6 +22,10 @@ onMounted(() => {
     spinnerShow.value = false
   })
 })
+
+function showHideSpinner(event) {
+  spinnerShow.value = event
+}
 
 </script>
 

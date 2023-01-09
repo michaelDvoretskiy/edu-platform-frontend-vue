@@ -3,8 +3,17 @@ import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {Auth} from "/src/services/api/Auth";
 import {useRouter} from "vue-router";
 import {getLocale} from "../../locales";
+import {onMounted, ref} from "vue";
+import {InfoGetter} from "/src/services/api/InfoGetter";
 
 const router = useRouter()
+const text = ref({})
+
+onMounted(() => {
+  InfoGetter.getFormText('login').then( res => {
+    text.value = res
+  })
+});
 
 function authenticate(submitEvent) {
   let userEmail = submitEvent.target.elements.email.value;
@@ -44,33 +53,33 @@ function authenticate(submitEvent) {
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body text-black">
-                  <form @submit.prevent="authenticate">
-                    <h5 class="fw-normal mb-2" style="letter-spacing: 1px;">Sign into your account</h5>
+                  <form name="login"  @submit.prevent="authenticate">
+                    <h5 class="fw-normal mb-2" style="letter-spacing: 1px;">{{ text.title }}</h5>
 
                     <div class="form-outline mb-2">
                       <input required type="email" id="email" name="email" class="form-control form-control-lg" />
-                      <label class="form-label small" for="email">Email address</label>
+                      <label class="form-label small" for="email">{{ text.email }}</label>
                     </div>
 
                     <div class="form-outline mb-2">
                       <input required type="password" id="passwd" name="passwd" class="form-control form-control-lg" />
-                      <label class="form-label" for="passwd">Password</label>
+                      <label class="form-label small" for="passwd">{{ text.password }}</label>
                     </div>
 
                     <div class="pt-1 mb-2">
                       <button class="btn btn-primary btn-lg btn-block" type="submit">
-                        Login
+                        {{ text.loginBtn }}
                       </button>
                     </div>
                   </form>
                   <div class="text-end">
                     <RouterLink class="small text-muted" :to="{ name: 'ForgotPass'}">
-                      Forgot password?
+                      {{ text.forgotPass }}
                     </RouterLink>
                     <p style="color: #393f81;" class="mt-2 mb-0">
-                      Don't have an account?
+                      {{ text.registerQ }}
                       <RouterLink class="small text-muted" :to="{ name: 'Register'}">
-                        Register here
+                        {{ text.registerLink }}
                       </RouterLink>
                     </p>
                   </div>

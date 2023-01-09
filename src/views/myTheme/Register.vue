@@ -19,7 +19,7 @@ function authenticate() {
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body text-black pt-0 pb-0">
-                  <form>
+                  <form name="register" >
                     <h5 class="fw-normal mb-2" style="letter-spacing: 1px;">Register your account</h5>
 
                     <div class="form-outline mb-2">

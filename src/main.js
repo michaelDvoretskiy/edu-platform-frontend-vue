@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import {createApp, ref} from 'vue'
 import App from './App.vue'
 import router from './router'
 
@@ -12,6 +12,7 @@ import './assets/myTheme/lib/owlcarousel/owl.carousel.min'
 import './assets/myTheme/lib/parallax/parallax.min'
 
 const app = createApp(App)
+app.provide('spinnerShow', ref(true))
 
 app.use(router)
 router.isReady().then(() => {
