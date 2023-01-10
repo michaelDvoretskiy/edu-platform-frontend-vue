@@ -3,15 +3,23 @@ import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {Auth} from "/src/services/api/Auth";
 import {useRouter} from "vue-router";
 import {getLocale} from "../../locales";
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {InfoGetter} from "/src/services/api/InfoGetter";
 
 const router = useRouter()
 const text = ref({})
+const spinnerShow = inject('spinnerShow')
+const alert = ref({
+  title: '',
+  description: '',
+  show: false
+})
 
 onMounted(() => {
+  spinnerShow.value.push('getLoginText')
   InfoGetter.getFormText('login').then( res => {
     text.value = res
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getLoginText')
   })
 });
 
@@ -24,8 +32,9 @@ function authenticate(submitEvent) {
     "password": userPass,
     "appname": "edu-client"
   }).then(
-      data => {
-        if (data.token) {
+      res => {
+        if (res.success) {
+          const data = res.data
           let href = router.resolve({ name: 'Home', params: {locale: getLocale()}}).href
           Auth.storeUser({
             name: data.name,
@@ -34,6 +43,13 @@ function authenticate(submitEvent) {
           })
           // router.push({name: 'Home'})
           window.location.href = href
+        } else if(res.message) {
+          alert.value = {
+            title: 'Error',
+            description: res.message,
+            class: "alert-danger",
+            show: true
+          }
         }
       }
   )
@@ -45,6 +61,10 @@ function authenticate(submitEvent) {
     <div class="container">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
+          <div v-if="alert.show" class="alert alert-dismissible fade show" :class="alert.class" role="alert">
+            <strong>{{ alert.title }}</strong> {{ alert.description }}
+            <button type="button" class="btn-close" @click="alert.show=false"></button>
+          </div>
           <div class="card" style="border-radius: 1rem;">
             <div class="row g-0 border-bottom">
               <div class="col-md-6 col-lg-5 d-none d-md-block">

@@ -4,7 +4,7 @@ import Spinner from "/src/components/myTheme/Spinner.vue";
 import HeadMenu from "/src/components/myTheme/HeadMenu.vue";
 import Footer from "/src/components/myTheme/Footer.vue";
 import BackToTop from "/src/components/myTheme/BackToTop.vue";
-import {onMounted, ref, inject} from "vue";
+import {onMounted, ref, inject, computed} from "vue";
 import {InfoGetter} from "/src/services/api/InfoGetter.js";
 import {checkLocale, setLocale} from "/src/locales/index.js";
 
@@ -16,12 +16,19 @@ const spinnerShow = inject('spinnerShow')
 onMounted(() => {
   const locale =  checkLocale(route.params.locale)
   setLocale(locale)
-
+  spinnerShow.value.push('getInfo')
   InfoGetter.getInfo().then( data => {
     infoData.value = data
-    spinnerShow.value = false
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getInfo')
   })
 })
+
+// const calcSometh = computed({
+//   get() {
+//     console.log(spinnerShow)
+//     return spinnerShow.value.length
+//   }
+// })
 
 function showHideSpinner(event) {
   spinnerShow.value = event
@@ -30,7 +37,7 @@ function showHideSpinner(event) {
 </script>
 
 <template>
-  <Spinner :show="spinnerShow" />
+  <Spinner :show="(spinnerShow.length!=0)" />
   <HeadMenu :infoData="infoData"/>
 
   <RouterView />

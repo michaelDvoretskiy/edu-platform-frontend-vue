@@ -12,7 +12,7 @@ import './assets/myTheme/lib/owlcarousel/owl.carousel.min'
 import './assets/myTheme/lib/parallax/parallax.min'
 
 const app = createApp(App)
-app.provide('spinnerShow', ref(true))
+app.provide('spinnerShow', ref([]))
 
 app.use(router)
 router.isReady().then(() => {

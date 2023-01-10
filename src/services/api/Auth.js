@@ -7,13 +7,13 @@ export class Auth {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
-    }).then(response => response.json()).then(data => data.data);
+    }).then(response => response.json());
   }
 
   static getVarificationCode(email, type) {
     return fetch(BaseMethods.getUrl( '/verif-code/' + type, {
       email: email
-    })).then(response => response.json()).then(data => data.data);
+    })).then(response => response.json());
   }
 
   static changePassword(userData) {
@@ -21,7 +21,15 @@ export class Auth {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
-    }).then(response => response.json()).then(data => data.data);
+    }).then(response => response.json());
+  }
+
+  static register(userData) {
+    return fetch(BaseMethods.getUrl( '/register'), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData)
+    }).then(response => response.json());
   }
 
   static logout() {

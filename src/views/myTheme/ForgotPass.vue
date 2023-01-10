@@ -1,10 +1,11 @@
 <script setup>
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
 
-import {inject, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {Auth} from "../../services/api/Auth";
 import {getLocale} from "../../locales";
 import {useRouter} from "vue-router";
+import {InfoGetter} from "../../services/api/InfoGetter";
 
 const router = useRouter()
 const spinnerShow = inject('spinnerShow')
@@ -22,15 +23,44 @@ const alert = ref({
   description: '',
   show: false
 })
+const text = ref({})
+
+onMounted(() => {
+  spinnerShow.value.push('getLoginText')
+  InfoGetter.getFormText('forgot-pass').then( res => {
+    text.value = res
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getLoginText')
+  })
+});
 
 function getVerificationCode() {
-  spinnerShow.value = true
+  spinnerShow.value.push('sendVerifCode')
   Auth.getVarificationCode(userRequest.value.email, 'restore-passwd').then(
-      data => {
-          if (data == 'Success') {
+      res => {
+          if (res.success) {
+            alert.value = {
+              title: text.value.msgConfCodeTitle,
+              description: text.value.msgConfCode,
+              class: "alert-info",
+              show: true
+            }
             step.value = 2
+          } else if(res.message) {
+            alert.value = {
+              title: 'Error.',
+              description: res.message,
+              class: "alert-danger",
+              show: true
+            }
+          } else if(res.message) {
+            alert.value = {
+              title: 'Error',
+              description: res.message,
+              class: "alert-danger",
+              show: true
+            }
           }
-        spinnerShow.value = false
+          spinnerShow.value = spinnerShow.value.filter(e => e !== 'sendVerifCode')
       }
   )
 }
@@ -38,14 +68,17 @@ function getVerificationCode() {
 function sendChangePassRequest() {
   if (userRequest.value.password != userRequest.value.c_password) {
     alert.value = {
-      title: 'Password',
-      description: 'password not equals confirm password',
+      title: text.value.msgInvalidConfTitle,
+      description: text.value.msgInvalidConf,
+      class: "alert-warning",
       show: true
     }
   } else {
+    spinnerShow.value.push('changePassword')
     Auth.changePassword(userRequest.value).then(
-      data => {
-        if (data.token) {
+      res => {
+        if (res.success) {
+          const data = res.data
           let href = router.resolve({ name: 'Home', params: {locale: getLocale()}}).href
           Auth.storeUser({
             name: data.name,
@@ -61,7 +94,17 @@ function sendChangePassRequest() {
             appname: 'edu-client'
           }
 
+          spinnerShow.value = spinnerShow.value.filter(e => e !== 'changePassword')
+
           window.location.href = href
+        } else if(res.message) {
+          alert.value = {
+            title: 'Error',
+            description: res.message,
+            class: "alert-danger",
+            show: true
+          }
+          spinnerShow.value = spinnerShow.value.filter(e => e !== 'changePassword')
         }
       }
     )
@@ -75,7 +118,7 @@ function sendChangePassRequest() {
     <div class="container">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-xl-10">
-          <div v-if="alert.show" class="alert alert-warning alert-dismissible fade show" role="alert">
+          <div v-if="alert.show" class="alert alert-dismissible fade show" :class="alert.class" role="alert">
             <strong>{{ alert.title }}</strong> {{ alert.description }}
             <button type="button" class="btn-close" @click="alert.show=false"></button>
           </div>
@@ -89,15 +132,15 @@ function sendChangePassRequest() {
                 <div class="card-body text-black">
                     <div v-if="step == 1">
                       <form name="restore-pass-1" @submit.prevent="getVerificationCode">
-                        <h5 class="fw-normal mb-4" style="letter-spacing: 1px;">Restore your account password</h5>
+                        <h5 class="fw-normal mb-4" style="letter-spacing: 1px;">{{ text.title }}</h5>
                         <div class="form-outline mb-4">
                           <input required type="email" id="email" name="email" class="form-control form-control-lg"
                             v-model="userRequest.email"/>
-                          <label class="form-label small" for="email">Email address</label>
+                          <label class="form-label small" for="email">{{ text.email }}</label>
                         </div>
                         <div class="pt-1 mb-2">
                           <button class="btn btn-primary btn-lg btn-block" type="submit">
-                            Send verification code
+                            {{ text.getVerifBtn }}
                           </button>
                         </div>
                       </form>
@@ -108,22 +151,22 @@ function sendChangePassRequest() {
                         <div class="form-outline mb-4">
                           <input required id="verif_code" name="verif_code" class="form-control form-control-lg"
                                  v-model="userRequest.verif_code"/>
-                          <label class="form-label small" for="verif_code">Verification code</label>
+                          <label class="form-label small" for="verif_code">{{ text.verifCode }}</label>
                         </div>
 
                         <div class="form-outline mb-2">
                           <input required type="password" id="password" name="password" class="form-control form-control-lg"
                                  v-model="userRequest.password"/>
-                          <label class="form-label small" for="password">Password</label>
+                          <label class="form-label small" for="password">{{ text.password }}</label>
                         </div>
 
                         <div class="form-outline mb-2">
                           <input required type="password" id="c_password" class="form-control form-control-lg"
                                  v-model="userRequest.c_password"/>
-                          <label class="form-label small" for="c_password">Confirm password</label>
+                          <label class="form-label small" for="c_password">{{ text.cPassword }}</label>
                         </div>
                         <div class="pt-1 mb-2">
-                          <button class="btn btn-primary btn-lg btn-block" type="submit">Restore</button>
+                          <button class="btn btn-primary btn-lg btn-block" type="submit">{{ text.changePass }}</button>
                         </div>
                       </form>
                     </div>
