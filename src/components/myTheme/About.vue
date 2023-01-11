@@ -46,12 +46,12 @@ onMounted(() => {
                         </a>
 
                         <p class="mb-2 mt-4">{{ data.dataParts.text3 }}</p>
-                        <a class="btn btn-primary py-2 px-3 me-3" href="">
+                        <RouterLink class="btn btn-primary py-2 px-3 me-3" :to="{ name: 'Feedback'}">
                           {{ data.dataParts.btn1Text }}
                           <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
                             <i class="fa fa-arrow-right"></i>
                           </div>
-                        </a>
+                        </RouterLink>
                     </div>
                 </div>
             </div>

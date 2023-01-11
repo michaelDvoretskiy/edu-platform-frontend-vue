@@ -18,4 +18,13 @@ export class InfoGetter {
     return fetch(BaseMethods.getUrl(this.#prefix + '/get-form-text/' + name))
       .then(response => response.json()).then(data => data.data);
   }
+
+  static feedback(data) {
+    return fetch(BaseMethods.getUrl( this.#prefix + '/feedback'), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('token')}` },
+      body: JSON.stringify(data)
+    }).then(response => response.json());
+  }
+
 }

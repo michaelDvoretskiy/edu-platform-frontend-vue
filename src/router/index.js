@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getLocale, setLocale, checkLocale } from "../locales";
+import {Auth} from "/src/services/api/Auth";
 
 const routes = [
     { path: '/', redirect: to => `/uk`},
@@ -51,9 +52,26 @@ const routes = [
           name: 'ForgotPass',
           component: () => import('../views/myTheme/ForgotPass.vue')
         },
+        {
+          path: 'have-to-login',
+          name: 'HaveToLoginInfo',
+          component: () => import('../views/myTheme/HaveToLogin.vue')
+        },
+        {
+          path: 'feedback',
+          name: 'Feedback',
+          component: () => import('../views/myTheme/Feedback.vue'),
+          beforeEnter: [checkAuth]
+        },
       ]
     }
   ];
+
+function checkAuth(to, from) {
+  if (!Auth.isUserLoggedIn()) {
+    return { name: 'HaveToLoginInfo' }
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

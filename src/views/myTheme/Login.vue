@@ -73,7 +73,7 @@ function authenticate(submitEvent) {
               </div>
               <div class="col-md-6 col-lg-7 d-flex align-items-center">
                 <div class="card-body text-black">
-                  <form name="login"  @submit.prevent="authenticate">
+                  <form name="login" @submit.prevent="authenticate">
                     <h5 class="fw-normal mb-2" style="letter-spacing: 1px;">{{ text.title }}</h5>
 
                     <div class="form-outline mb-2">
