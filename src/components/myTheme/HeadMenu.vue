@@ -42,9 +42,7 @@ onMounted(() => {
 });
 
 function logout() {
-  let href = router.resolve({ name: 'Home', params: {locale: getLocale()}}).href
-  Auth.logout();
-  window.location.href = href
+  Auth.logout(router);
 }
 
 </script>

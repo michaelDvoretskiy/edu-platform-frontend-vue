@@ -5,13 +5,15 @@ export class CoursesDataGetter {
   static #prefix = '/courses'
 
   static getCategoriesList() {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/categories'))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('courses', 'categories', BaseMethods.getUrl(this.#prefix + '/categories'))
+      .then(res => res.data)
   }
 
   static getCategory(name) {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/category/' + name))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('courses', 'category-' + name, BaseMethods.getUrl(this.#prefix + '/category/' + name))
+      .then(res => res.data)
   }
 
   static getCourse(name) {
@@ -23,12 +25,14 @@ export class CoursesDataGetter {
       options['headers'] = { "Authorization": `Bearer ${token}` };
     }
 
-    return fetch(BaseMethods.getUrl(this.#prefix + '/course/' + name), options)
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('courses', 'course-' + name, BaseMethods.getUrl(this.#prefix + '/course/' + name), options)
+      .then(res => res.data)
   }
 
   static getLesson(name) {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/lesson/' + name))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('courses', 'lesson-' + name, BaseMethods.getUrl(this.#prefix + '/lesson/' + name))
+      .then(res => res.data)
   }
 }

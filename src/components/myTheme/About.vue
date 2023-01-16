@@ -37,21 +37,17 @@ onMounted(() => {
                         <h1 class="display-6 mb-5">{{ data.dataParts.headerText }}</h1>
                         <p class="mb-2">{{ data.dataParts.text1 }}</p>
 
-                        <p class="mb-2 mt-4">{{ data.dataParts.text2 }}</p>
-                        <a class="btn btn-outline-primary py-2 px-3" href="">
-                          {{ data.dataParts.btn2Text }}
-                          <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">
-                            <i class="fa fa-arrow-right"></i>
-                          </div>
-                        </a>
-
                         <p class="mb-2 mt-4">{{ data.dataParts.text3 }}</p>
                         <RouterLink class="btn btn-primary py-2 px-3 me-3" :to="{ name: 'Feedback'}">
+
                           {{ data.dataParts.btn1Text }}
                           <div class="d-inline-flex btn-sm-square bg-white text-primary rounded-circle ms-2">
                             <i class="fa fa-arrow-right"></i>
                           </div>
                         </RouterLink>
+
+                        <p class="mb-2 mt-4">{{ data.dataParts.text2 }}</p>
+                        <p class="mb-2 mt-4" style="font-size: 0.7em;">{{ data.dataParts.text4 }}</p>
                     </div>
                 </div>
             </div>

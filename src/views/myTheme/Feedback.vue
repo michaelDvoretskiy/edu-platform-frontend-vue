@@ -49,8 +49,8 @@ function sendFeedback(submitEvent) {
 
 <template>
   <PageHeader :title="data.title"/>
-  <div class="container-xxl py-4 pt-1">
-    <div class="container">
+  <div class="container-xxl py-4 pt-1" v-if="data.title">
+    <div class="container wow fadeInUp" data-wow-delay="0.1s">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div v-if="alert.show && step==1" class="alert alert-dismissible fade show" :class="alert.class" role="alert">
           <strong>{{ alert.title }}</strong> {{ alert.description }}

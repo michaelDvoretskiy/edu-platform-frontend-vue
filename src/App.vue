@@ -7,21 +7,40 @@ import BackToTop from "/src/components/myTheme/BackToTop.vue";
 import {onMounted, ref, inject, computed} from "vue";
 import {InfoGetter} from "/src/services/api/InfoGetter.js";
 import {checkLocale, setLocale} from "/src/locales/index.js";
+import {Auth} from "/src/services/api/Auth";
+import {BaseMethods} from "/src/services/api/BaseMethods.js";
 
 const infoData = ref({})
 // const spinnerShow = ref(true)
 const route = useRoute()
 const spinnerShow = inject('spinnerShow')
+const showApp = ref(false)
 
 onMounted(() => {
-  const locale =  checkLocale(route.params.locale)
-  setLocale(locale)
-  spinnerShow.value.push('getInfo')
-  InfoGetter.getInfo().then( data => {
-    infoData.value = data
-    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getInfo')
+  showApp.value = false
+  checkUserCacheStatus().then(() => {
+    const locale =  checkLocale(route.params.locale)
+    setLocale(locale)
+    spinnerShow.value.push('getInfo')
+    InfoGetter.getInfo().then( data => {
+      infoData.value = data
+      spinnerShow.value = spinnerShow.value.filter(e => e !== 'getInfo')
+    })
   })
 })
+
+async function checkUserCacheStatus() {
+  let token = localStorage.getItem('token')
+  if (token) {
+    await Auth.checkCacheClearNeed(token).then(res => {
+      if (res.success && res.data.length > 0) {
+        BaseMethods.cacheClear(res.data)
+        Auth.updateCacheClearDate(token)
+      }
+    })
+  }
+  showApp.value = true
+}
 
 // const calcSometh = computed({
 //   get() {
@@ -37,13 +56,15 @@ function showHideSpinner(event) {
 </script>
 
 <template>
-  <Spinner :show="(spinnerShow.length!=0)" />
-  <HeadMenu :infoData="infoData"/>
+  <div v-if="showApp">
+    <Spinner :show="(spinnerShow.length!=0)" />
+    <HeadMenu :infoData="infoData"/>
 
-  <RouterView />
+    <RouterView />
 
-  <Footer :infoData="infoData"/>
-  <BackToTop/>
+    <Footer :infoData="infoData"/>
+    <BackToTop/>
+  </div>
 </template>
 
 <style scoped>

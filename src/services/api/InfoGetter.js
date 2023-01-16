@@ -1,22 +1,26 @@
 import {BaseMethods} from "/src/services/api/BaseMethods.js";
+import { set, get } from "/src/services/api/IdbHelper.js";
 
 export class InfoGetter {
 
   static #prefix = '/info'
 
   static getInfo() {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/get-general'))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('info', 'general', BaseMethods.getUrl(this.#prefix + '/get-general'))
+      .then(res => res.data)
   }
 
   static getHomeCarousel() {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/get-home-carousel'))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('info', 'home-carousel', BaseMethods.getUrl(this.#prefix + '/get-home-carousel'))
+      .then(res => res.data)
   }
 
   static getFormText(name) {
-    return fetch(BaseMethods.getUrl(this.#prefix + '/get-form-text/' + name))
-      .then(response => response.json()).then(data => data.data);
+    return BaseMethods
+      .getFromCacheOrFetch('info', 'form-text', BaseMethods.getUrl(this.#prefix + '/get-form-text/' + name))
+      .then(res => res.data)
   }
 
   static feedback(data) {

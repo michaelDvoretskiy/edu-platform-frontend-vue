@@ -41,8 +41,10 @@ function authenticate(submitEvent) {
             token: data.token,
             email: userEmail
           })
-          // router.push({name: 'Home'})
-          window.location.href = href
+          Auth.updateCacheClearDate(data.token).then( res => {
+            // router.push({name: 'Home'})
+            window.location.href = href
+          })
         } else if(res.message) {
           alert.value = {
             title: 'Error',
