@@ -31,8 +31,28 @@ export class CoursesDataGetter {
   }
 
   static getLesson(name) {
+    let options = {
+      method: "GET",
+    };
+    let token = localStorage.getItem('token')
+    if (token) {
+      options['headers'] = { "Authorization": `Bearer ${token}` };
+    }
+
     return BaseMethods
-      .getFromCacheOrFetch('courses', 'lesson-' + name, BaseMethods.getUrl(this.#prefix + '/lesson/' + name))
+      .getFromCacheOrFetch('courses', 'lesson-' + name, BaseMethods.getUrl(this.#prefix + '/lesson/' + name), options)
       .then(res => res.data)
+  }
+
+  static getPdf(pdfId) {
+    let options = {
+      method: "GET",
+    };
+    let token = localStorage.getItem('token')
+    if (token) {
+      options['headers'] = { "Authorization": `Bearer ${token}` };
+    }
+    return BaseMethods
+      .getFromCacheOrFetch('frames', pdfId, BaseMethods.getUrl(`/pdf/get-content/${pdfId}`), options)
   }
 }

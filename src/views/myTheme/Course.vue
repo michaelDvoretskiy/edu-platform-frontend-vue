@@ -62,7 +62,15 @@ onMounted(() => {
             <i v-if="lesson.hasTasks" class="fas fa-tasks m-1"></i>
           </div>
         </div>
-        <div class="lesson-overlay">
+        <div v-if="!lesson.allowed" class="locked-lesson-overlay">
+          <div class="info-locked">
+            <i class="fas fa-lock"></i>
+          </div>
+<!--          <div class="d-inline-flex btn-sm-square bg-primary text-white rounded-circle ms-2">-->
+<!--            <i class="fas fa-lock"></i>-->
+<!--          </div>-->
+        </div>
+        <div v-if="lesson.allowed" class="lesson-overlay">
           <div class="mb-3 text-white">{{ lesson.title }}</div>
           <div>
 <!--            <a class="btn btn-outline-primary" href="">-->
@@ -81,7 +89,7 @@ onMounted(() => {
   <!-- Cause End -->
 </template>
 <style scoped>
-  .lesson .lesson-overlay {
+  .lesson .lesson-overlay, .lesson .locked-lesson-overlay {
     position: absolute;
     width: 100%;
     height: 0;
@@ -97,7 +105,11 @@ onMounted(() => {
     transition: .5s;
   }
 
-  .lesson:hover .lesson-overlay {
+  .lesson .locked-lesson-overlay {
+    background: rgba(0, 0, 0, .5);
+  }
+
+  .lesson:hover .lesson-overlay, .lesson .locked-lesson-overlay {
     height: 100%;
     opacity: 1;
   }
@@ -108,11 +120,15 @@ onMounted(() => {
     background-color: #fdf8f4;
   }
   .lesson .title {
-    color: #FF6F0F;
+    color: var(--primary);;
   }
   .info i {
     font-size: 1.5em;
-    color: #FF6F0F;
+    color: var(--primary);
+  }
+  .info-locked i {
+    font-size: 2.5em;
+    color: var(--primary);;
   }
   span.lng {
     font-size: 1.5em;

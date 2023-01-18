@@ -1,9 +1,13 @@
 <script setup>
+// https://stackoverflow.com/questions/13432821/is-it-possible-to-add-request-headers-to-an-iframe-src-request
+
 import {onMounted, ref} from "vue";
 import CourseShort from "/src/components/myTheme/CourseShort.vue";
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {CoursesDataGetter} from "/src/services/api/CoursesDataGetter";
 import {useRoute} from "vue-router";
+import {PdfFrameContent} from "/src/services/api/PdfFrameContent.js";
+import {BaseMethods} from "/src/services/api/BaseMethods.js";
 
 const lesson = ref({})
 const hideTasks = ref({
@@ -32,8 +36,14 @@ onMounted(() => {
   new WOW().init();
 });
 
-function getPdfSrc(id) {
-  return `http://localhost:8000/api/pdf/show/${id}`;
+async function getFrameHtml(file, frame) {
+  return CoursesDataGetter.getPdf(file).then( res => {
+    if (res.success) {
+      const html = PdfFrameContent.getHtml(res.data.content)
+      frame.srcdoc = html
+    }
+  })
+
 }
 
 function getIconClassByType(type) {
@@ -49,11 +59,36 @@ function getIconClassByType(type) {
   return '';
 }
 
-function changeVisability(type, index) {
+function changeVisability(type, index, obj) {
+  if (obj.type == 'pdf') {
+    var iframe = document.getElementById(`frame-${obj.file}`)
+    if (iframe != undefined && !iframe.srcdoc) {
+      getFrameHtml(obj.file, iframe)
+    }
+  }
   var task = document.getElementById(`${type}-${index}`);
   task.style.display = (task.style.display == 'none') ? 'block' : 'none';
   hideTasks.value[type][index] = !hideTasks.value[type][index];
 }
+
+function getPdf(pdfId) {
+  CoursesDataGetter.getPdf(pdfId).then(res => {
+    console.log(res)
+    // var data_url = URL.createObjectURL(res)
+
+    var iframe = document.getElementById(`file-${pdfId}`)
+    iframe = iframe.contentWindow || ( iframe.contentDocument.document || iframe.contentDocument)
+    console.log(iframe)
+
+    iframe.document.open()
+    iframe.document.write(res.data.html)
+    iframe.document.close()
+
+    // console.log(data_url)
+    // document.querySelector(`#${frameId}`).src = data_url;
+  })
+}
+
 </script>
 
 <template>
@@ -67,7 +102,7 @@ function changeVisability(type, index) {
       </div>
       <div v-for="(material, index) in lesson.materials" class="mb-5">
         <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden h-100">
-          <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('material', index)">
+          <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('material', index, material)">
             <div class="d-inline-block bg-primary text-white rounded-bottom fs-5 pb-1 px-3 mb-2">
               <small>
                 <i :class="getIconClassByType(material.type)" class="ms-2"></i>
@@ -79,9 +114,8 @@ function changeVisability(type, index) {
           </div>
         </div>
         <div style="display: none;" :id="'material-'+index">
-          <div>
-            <iframe :src="getPdfSrc(material.file)" width="100%" height="500px">
-            </iframe>
+          <div v-if="material.type=='pdf'">
+            <iframe :id="'frame-'+material.file" width="100%" height="500px"></iframe>
           </div>
           <div v-if="material.type=='video'" class="video-container">
             <iframe class="responsive-iframe" :src="material.link"></iframe>
@@ -91,7 +125,7 @@ function changeVisability(type, index) {
 
       <div v-for="(task, index) in lesson.tasks" class="mb-5">
         <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden h-100">
-          <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('task', index)">
+          <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('task', index, task)">
             <div class="d-inline-block bg-primary text-white rounded-bottom fs-5 pb-1 px-3 mb-2">
               <small>
                 <i :class="getIconClassByType('task')" class="ms-2"></i>
@@ -104,8 +138,10 @@ function changeVisability(type, index) {
         </div>
         <div style="display: none;" :id="'task-'+index">
           <div>
-            <iframe :src="getPdfSrc(task.file)" width="100%" height="500px">
-            </iframe>
+<!--            <iframe :src="getPdfSrc(task.file)" width="100%" height="500px">-->
+<!--            </iframe>-->
+<!--            <iframe id="frame-{{task.file}}" width="100%" height="500px">-->
+<!--            </iframe>-->
           </div>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import {openDB} from "idb";
 import {getLocale} from "/src/locales/index.js";
 
-const cacheNames = ['info', 'courses']
+const cacheNames = ['info', 'courses', 'frames']
 
 const dbPromise = openDB('eduportal-data', 1, {
   upgrade(db) {
-    for(let oneCache in cacheNames) {
+    for(let oneCache of cacheNames) {
       db.createObjectStore(oneCache);
     }
   },
@@ -24,11 +24,18 @@ export async function clearCache(caches = null) {
 }
 
 export async function get(objStoreName, key) {
-  return (await dbPromise).get(objStoreName, getLocale() + '-' + key);
+  return (await dbPromise).get(objStoreName, getKey(objStoreName, key));
 }
 
 export async function set(objStoreName, key, val) {
-  return (await dbPromise).put(objStoreName, val, getLocale() + '-' + key);
+  return (await dbPromise).put(objStoreName, val, getKey(objStoreName, key));
+}
+
+function getKey(objStoreName, key) {
+  if (objStoreName != 'frames') {
+    return getLocale() + '-' + key
+  }
+  return key
 }
 
 async function keys(objStoreName) {

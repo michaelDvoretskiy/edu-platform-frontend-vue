@@ -4,6 +4,10 @@ import {get, set, clearCache} from "./IdbHelper";
 export class BaseMethods {
   static #baseApiUrl = 'http://127.0.0.1:8000/api';
 
+  static getBaseApiUrl() {
+    return this.#baseApiUrl;
+  }
+
   static getUrl(url, getParams = {}) {
     getParams['locale'] = getLocale();
     const params = new URLSearchParams(getParams).toString();
@@ -22,7 +26,7 @@ export class BaseMethods {
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              set(storeName, key, data)
+                set(storeName, key, data)
             }
             return data
           });
