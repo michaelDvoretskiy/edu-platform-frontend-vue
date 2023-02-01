@@ -19,7 +19,7 @@ export class InfoGetter {
 
   static getFormText(name) {
     return BaseMethods
-      .getFromCacheOrFetch('info', 'form-text', BaseMethods.getUrl(this.#prefix + '/get-form-text/' + name))
+      .getFromCacheOrFetch('info', 'form-text-'+name, BaseMethods.getUrl(this.#prefix + '/get-form-text/' + name))
       .then(res => res.data)
   }
 

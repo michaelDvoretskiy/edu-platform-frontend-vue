@@ -5,7 +5,7 @@ import router from './router'
 // import './assets/main.css'
 import './assets/myTheme/main.css'
 
-// import {Wow} from './assets/myTheme/lib/wow/wow.min'
+// import './assets/myTheme/lib/wow/wow.min'
 import './assets/myTheme/lib/easing/easing.min'
 import './assets/myTheme/lib/waypoints/waypoints.min'
 import './assets/myTheme/lib/owlcarousel/owl.carousel.min'

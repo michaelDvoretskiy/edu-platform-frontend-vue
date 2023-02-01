@@ -49,7 +49,7 @@ onMounted(() => {
         <div class="col-md-4 col-lg-3 align-items-center d-flex" style="justify-content: space-around;">
           <h5 class="title">{{ lesson.title }}</h5>
         </div>
-        <div class="col-md-6 col-lg-7">{{ lesson.description }}</div>
+        <div class="col-md-6 col-lg-7" style="font-size: 0.8em;">{{ lesson.description }}</div>
         <div class="lng col-md-1 align-items-center d-flex mt-3 mb-3" style="justify-content: space-around;">
           <div>
             <span v-for="lng in lesson.languages" :class="getLangIconClass(lng)" class="m-1 lng"></span>

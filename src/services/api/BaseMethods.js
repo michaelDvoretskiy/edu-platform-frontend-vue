@@ -2,7 +2,7 @@ import {getLocale} from "/src/locales/index.js";
 import {get, set, clearCache} from "./IdbHelper";
 
 export class BaseMethods {
-  static #baseApiUrl = 'http://127.0.0.1:8000/api';
+  static #baseApiUrl = import.meta.env.VITE_APP_API_URL; // process.env.VUE_APP_API_URL;
 
   static getBaseApiUrl() {
     return this.#baseApiUrl;

@@ -44,7 +44,7 @@ export class CoursesDataGetter {
       .then(res => res.data)
   }
 
-  static getPdf(pdfId) {
+  static getPdf(pdfId, type) {
     let options = {
       method: "GET",
     };
@@ -53,6 +53,6 @@ export class CoursesDataGetter {
       options['headers'] = { "Authorization": `Bearer ${token}` };
     }
     return BaseMethods
-      .getFromCacheOrFetch('frames', pdfId, BaseMethods.getUrl(`/pdf/get-content/${pdfId}`), options)
+      .getFromCacheOrFetch('frames', pdfId, BaseMethods.getUrl(`/pdf/get-content/${pdfId}/${type}`), options)
   }
 }

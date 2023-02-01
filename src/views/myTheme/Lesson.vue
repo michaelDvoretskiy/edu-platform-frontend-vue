@@ -36,8 +36,8 @@ onMounted(() => {
   new WOW().init();
 });
 
-async function getFrameHtml(file, frame) {
-  return CoursesDataGetter.getPdf(file).then( res => {
+async function getFrameHtml(file, type, frame) {
+  return CoursesDataGetter.getPdf(file, type).then( res => {
     if (res.success) {
       const html = PdfFrameContent.getHtml(res.data.content)
       frame.srcdoc = html
@@ -60,10 +60,11 @@ function getIconClassByType(type) {
 }
 
 function changeVisability(type, index, obj) {
+  console.log(type, index, obj)
   if (obj.type == 'pdf') {
-    var iframe = document.getElementById(`frame-${obj.file}`)
+    var iframe = document.getElementById(`frame-${type}-${index}`)
     if (iframe != undefined && !iframe.srcdoc) {
-      getFrameHtml(obj.file, iframe)
+      getFrameHtml(obj.file, type, iframe)
     }
   }
   var task = document.getElementById(`${type}-${index}`);
@@ -115,7 +116,7 @@ function getPdf(pdfId) {
         </div>
         <div style="display: none;" :id="'material-'+index">
           <div v-if="material.type=='pdf'">
-            <iframe :id="'frame-'+material.file" width="100%" height="500px"></iframe>
+            <iframe :id="'frame-material-'+index" width="100%" height="500px"></iframe>
           </div>
           <div v-if="material.type=='video'" class="video-container">
             <iframe class="responsive-iframe" :src="material.link"></iframe>
@@ -138,6 +139,9 @@ function getPdf(pdfId) {
         </div>
         <div style="display: none;" :id="'task-'+index">
           <div>
+            <div v-if="task.type=='pdf'">
+              <iframe :id="'frame-task-'+index" width="100%" height="500px"></iframe>
+            </div>
 <!--            <iframe :src="getPdfSrc(task.file)" width="100%" height="500px">-->
 <!--            </iframe>-->
 <!--            <iframe id="frame-{{task.file}}" width="100%" height="500px">-->

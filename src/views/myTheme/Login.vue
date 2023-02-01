@@ -3,7 +3,7 @@ import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {Auth} from "/src/services/api/Auth";
 import {useRouter} from "vue-router";
 import {getLocale} from "../../locales";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, onUpdated, ref} from "vue";
 import {InfoGetter} from "/src/services/api/InfoGetter";
 
 const router = useRouter()

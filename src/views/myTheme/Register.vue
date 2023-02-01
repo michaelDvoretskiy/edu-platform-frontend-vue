@@ -1,7 +1,7 @@
 <script setup>
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {useRouter} from "vue-router";
-import {inject, onMounted, ref} from "vue";
+import {inject, onMounted, onUpdated, ref} from "vue";
 import {InfoGetter} from "../../services/api/InfoGetter";
 import {Auth} from "../../services/api/Auth";
 import {getLocale} from "../../locales";
@@ -105,6 +105,12 @@ function sendRegRequest() {
   }
 }
 
+function showTerms() {
+  var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+    keyboard: false
+  })
+}
+
 </script>
 <template>
   <PageHeader/>
@@ -134,18 +140,47 @@ function sendRegRequest() {
                         <label class="form-label small" for="email">{{ text.email }}</label>
                       </div>
 
-                      <div class="form-outline mb-2">
+                      <div class="form-outline mb-1">
                         <input required type="text" id="name" name="name" class="form-control form-control-lg"
                                v-model="userRequest.name"/>
                         <label class="form-label small" for="name">{{ text.userName }}</label>
                       </div>
 
+                      <div v-if="text.terms" class="form-check mb-3">
+                        <input required class="form-check-input" type="checkbox" value="" id="agree">
+                        <label class="form-check-label" for="agree">
+                          {{ text.terms.start }}
+                        </label>
+                        <a class="ms-2" href="#termsModal" data-bs-toggle="modal" data-bs-target="#termsModal">
+                          {{ text.terms.link }}
+                        </a>
+                      </div>
                       <div class="pt-1 mb-2">
                         <button class="btn btn-primary btn-lg btn-block" type="submit">
                           {{ text.getVerifBtn }}
                         </button>
                       </div>
                     </form>
+
+                    <!-- terms modal -->
+                    <div v-if="text.terms" class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="termsModalLabel">{{ text.terms.title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>
+                              {{ text.terms.text1 }}
+                            </p>
+                            <p>
+                              {{ text.terms.text2 }}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
                     <div class="text-end">
                       <p style="color: #393f81;" class="mb-0">

@@ -32,10 +32,11 @@ export async function set(objStoreName, key, val) {
 }
 
 function getKey(objStoreName, key) {
-  if (objStoreName != 'frames') {
-    return getLocale() + '-' + key
-  }
-  return key
+  return getLocale() + '-' + key
+  // if (objStoreName != 'frames') {
+  //   return getLocale() + '-' + key
+  // }
+  // return key
 }
 
 async function keys(objStoreName) {

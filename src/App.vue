@@ -38,6 +38,8 @@ async function checkUserCacheStatus() {
         Auth.updateCacheClearDate(token)
       }
     })
+  } else {
+    BaseMethods.cacheClear()
   }
   showApp.value = true
 }
