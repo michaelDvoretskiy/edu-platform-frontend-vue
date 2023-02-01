@@ -1,17 +1,29 @@
 <script setup>
 
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import {PageDataGetter} from "/src/services/api/PageDataGetter.js";
+import {InfoGetter} from "../../services/api/InfoGetter";
+import TermsModal from "/src/components/myTheme/TermsModal.vue";
+import {BaseMethods} from "/src/services/api/BaseMethods.js";
 
 const data = ref({})
 const emit = defineEmits(['pageTitle'])
+const text = ref({})
+const spinnerShow = inject('spinnerShow')
 
 onMounted(() => {
+  spinnerShow.value.push('getAboutText')
   PageDataGetter.getPageData('about').then( res => {
     data.value = res
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getAboutText')
     if (res.title) {
       emit('pageTitle', res.title)
     }
+  })
+  spinnerShow.value.push('getregisterText')
+  InfoGetter.getFormText('register').then( res => {
+    text.value = res
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getregisterText')
   })
 })
 </script>
@@ -46,8 +58,22 @@ onMounted(() => {
                           </div>
                         </RouterLink>
 
-                        <p class="mb-2 mt-4">{{ data.dataParts.text2 }}</p>
+                        <p class="mb-2 mt-4">{{ data.dataParts.text2 }}
+                          <a style="font-size: 0.7em;" :href="BaseMethods.getUrl('/get-details')">{{ data.dataParts.detailsLink }}</a>
+                        </p>
+
+                        <p class="mb-2 mt-4">{{ data.dataParts.text2_2 }}</p>
                         <p class="mb-2 mt-4" style="font-size: 0.7em;">{{ data.dataParts.text4 }}</p>
+
+                        <p class="mb-2 mt-4">
+                          <span>
+                            {{ data.dataParts.terms1 }}
+                          </span>
+                          <a class="ms-2" href="#termsModal" data-bs-toggle="modal" data-bs-target="#termsModal">
+                            {{ data.dataParts.terms2 }}
+                          </a>
+                        </p>
+                        <terms-modal :terms="text.terms" />
                     </div>
                 </div>
             </div>
@@ -57,5 +83,4 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
 </style>

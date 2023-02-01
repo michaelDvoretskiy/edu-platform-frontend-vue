@@ -1,5 +1,6 @@
 <script setup>
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
+import TermsModal from "/src/components/myTheme/TermsModal.vue";
 import {useRouter} from "vue-router";
 import {inject, onMounted, onUpdated, ref} from "vue";
 import {InfoGetter} from "../../services/api/InfoGetter";
@@ -162,25 +163,7 @@ function showTerms() {
                       </div>
                     </form>
 
-                    <!-- terms modal -->
-                    <div v-if="text.terms" class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-                      <div class="modal-dialog">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="termsModalLabel">{{ text.terms.title }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <p>
-                              {{ text.terms.text1 }}
-                            </p>
-                            <p>
-                              {{ text.terms.text2 }}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <terms-modal :terms="text.terms" />
 
                     <div class="text-end">
                       <p style="color: #393f81;" class="mb-0">
