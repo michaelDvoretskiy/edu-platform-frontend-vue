@@ -23,6 +23,11 @@ const routes = [
           component: () => import('../views/myTheme/Categories.vue')
         },
         {
+          path: 'cabinet',
+          name: 'cabinet',
+          component: () => import('../views/myTheme/Cabinet.vue')
+        },
+        {
           path: 'courses/:category',
           name: 'Courses',
           component: () => import('../views/myTheme/Categoty.vue')

@@ -86,6 +86,10 @@ function logout() {
                   <div v-if="isLoggedIn" class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ userName }}</a>
                     <div class="dropdown-menu m-0">
+                      <RouterLink v-for="link in infoData.userMenu" class="dropdown-item" :to="{ name: link.link}"
+                                  @click="visible=!visible">
+                        {{ link.title }}
+                      </RouterLink>
                       <a class="dropdown-item" href="" @click.prevent="logout">
                         Logout <i class="fas fa-sign-out-alt"></i>
                       </a>
