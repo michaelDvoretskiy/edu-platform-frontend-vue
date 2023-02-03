@@ -47,7 +47,7 @@ export class Auth {
   static updateCacheClearDate(token) {
     return fetch(BaseMethods.getUrl( '/user-cache/update'), {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+      headers: { "Content-Type": "application/json", [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` },
       body: JSON.stringify({})
     }).then(response => response.json())
   }
@@ -55,7 +55,7 @@ export class Auth {
   static checkCacheClearNeed(token) {
     return fetch(BaseMethods.getUrl( '/user-cache/check'), {
       method: "GET",
-      headers: { "Authorization": `Bearer ${token}` }
+      headers: { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` }
     }).then(response => response.json())
   }
 

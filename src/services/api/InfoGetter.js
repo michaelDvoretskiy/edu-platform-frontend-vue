@@ -11,7 +11,7 @@ export class InfoGetter {
     };
     let token = localStorage.getItem('token')
     if (token) {
-      options['headers'] = { "Authorization": `Bearer ${token}` };
+      options['headers'] = { [BaseMethods.getAuthHeaderName()] : `Bearer ${token}` };
     }
     return BaseMethods
       .getFromCacheOrFetch('info', 'general', BaseMethods.getUrl(this.#prefix + '/get-general'), options)
@@ -33,7 +33,7 @@ export class InfoGetter {
   static feedback(data) {
     return fetch(BaseMethods.getUrl( this.#prefix + '/feedback'), {
       method: "POST",
-      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${localStorage.getItem('token')}` },
+      headers: { "Content-Type": "application/json", [BaseMethods.getAuthHeaderName()]: `Bearer ${localStorage.getItem('token')}` },
       body: JSON.stringify(data)
     }).then(response => response.json());
   }
@@ -42,7 +42,7 @@ export class InfoGetter {
     let token = localStorage.getItem('token')
     let options = {
       method: "GET",
-      headers: { "Authorization": `Bearer ${token}` }
+      headers: { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` }
     };
 
     return BaseMethods
@@ -54,7 +54,7 @@ export class InfoGetter {
     let token = localStorage.getItem('token')
     let options = {
       method: "GET",
-      headers: { "Authorization": `Bearer ${token}` }
+      headers: { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` }
     };
 
     return BaseMethods

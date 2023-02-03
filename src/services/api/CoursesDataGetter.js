@@ -22,7 +22,7 @@ export class CoursesDataGetter {
     };
     let token = localStorage.getItem('token')
     if (token) {
-      options['headers'] = { "Authorization": `Bearer ${token}` };
+      options['headers'] = { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` };
     }
 
     return BaseMethods
@@ -36,7 +36,7 @@ export class CoursesDataGetter {
     };
     let token = localStorage.getItem('token')
     if (token) {
-      options['headers'] = { "Authorization": `Bearer ${token}` };
+      options['headers'] = { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` };
     }
 
     return BaseMethods
@@ -50,7 +50,7 @@ export class CoursesDataGetter {
     };
     let token = localStorage.getItem('token')
     if (token) {
-      options['headers'] = { "Authorization": `Bearer ${token}` };
+      options['headers'] = { [BaseMethods.getAuthHeaderName()]: `Bearer ${token}` };
     }
     return BaseMethods
       .getFromCacheOrFetch('frames', pdfId, BaseMethods.getUrl(`/pdf/get-content/${pdfId}/${type}`), options)

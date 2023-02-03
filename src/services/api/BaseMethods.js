@@ -3,9 +3,14 @@ import {get, set, clearCache} from "./IdbHelper";
 
 export class BaseMethods {
   static #baseApiUrl = import.meta.env.VITE_APP_API_URL; // process.env.VUE_APP_API_URL;
+  static #authHeaderName = 'userauth';
 
   static getBaseApiUrl() {
     return this.#baseApiUrl;
+  }
+
+  static getAuthHeaderName() {
+    return this.#authHeaderName;
   }
 
   static getUrl(url, getParams = {}) {
