@@ -64,15 +64,19 @@ function getIconClassByType(type) {
 }
 
 function changeVisability(type, index, obj) {
-  if (obj.type == 'pdf') {
-    var iframe = document.getElementById(`frame-${type}-${index}`)
-    if (iframe != undefined && !iframe.srcdoc) {
-      getFrameHtml(obj.file, type, iframe)
+  if (!showElements.value) {
+    expandCompress(false, index)
+  } else {
+    if (obj.type == 'pdf') {
+      var iframe = document.getElementById(`frame-${type}-${index}`)
+      if (iframe != undefined && !iframe.srcdoc) {
+        getFrameHtml(obj.file, type, iframe)
+      }
     }
+    var task = document.getElementById(`${type}-${index}`);
+    task.style.display = (task.style.display == 'none') ? 'block' : 'none';
+    hideTasks.value[type][index] = !hideTasks.value[type][index];
   }
-  var task = document.getElementById(`${type}-${index}`);
-  task.style.display = (task.style.display == 'none') ? 'block' : 'none';
-  hideTasks.value[type][index] = !hideTasks.value[type][index];
 }
 
 function getPdf(pdfId) {
@@ -85,9 +89,6 @@ function getPdf(pdfId) {
     iframe.document.open()
     iframe.document.write(res.data.html)
     iframe.document.close()
-
-    // console.log(data_url)
-    // document.querySelector(`#${frameId}`).src = data_url;
   })
 }
 
