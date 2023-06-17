@@ -8,12 +8,14 @@ import {CoursesDataGetter} from "/src/services/api/CoursesDataGetter";
 import {useRoute} from "vue-router";
 import {PdfFrameContent} from "/src/services/api/PdfFrameContent.js";
 import {BaseMethods} from "/src/services/api/BaseMethods.js";
+import {useMaterialFullScreen} from "/src/services/api/materialFullScrean.js";
 
 const lesson = ref({})
 const hideTasks = ref({
   'material': {},
   'task': {}
 })
+const {materialName,showElements} = useMaterialFullScreen()
 
 const route = useRoute()
 
@@ -43,7 +45,6 @@ async function getFrameHtml(file, type, frame) {
       frame.srcdoc = html
     }
   })
-
 }
 
 function getIconClassByType(type) {
@@ -60,7 +61,6 @@ function getIconClassByType(type) {
 }
 
 function changeVisability(type, index, obj) {
-  console.log(type, index, obj)
   if (obj.type == 'pdf') {
     var iframe = document.getElementById(`frame-${type}-${index}`)
     if (iframe != undefined && !iframe.srcdoc) {
@@ -74,12 +74,10 @@ function changeVisability(type, index, obj) {
 
 function getPdf(pdfId) {
   CoursesDataGetter.getPdf(pdfId).then(res => {
-    console.log(res)
     // var data_url = URL.createObjectURL(res)
 
     var iframe = document.getElementById(`file-${pdfId}`)
     iframe = iframe.contentWindow || ( iframe.contentDocument.document || iframe.contentDocument)
-    console.log(iframe)
 
     iframe.document.open()
     iframe.document.write(res.data.html)
@@ -88,6 +86,34 @@ function getPdf(pdfId) {
     // console.log(data_url)
     // document.querySelector(`#${frameId}`).src = data_url;
   })
+}
+
+function expandCompress(expand, index) {
+
+  let elemName = `material-sect-${index}`
+  let elem = document.getElementById(elemName)
+
+  let firstDiv = elem.getElementsByTagName('div')[0];
+  let firstIFrame = elem.getElementsByTagName('iframe')[0];
+
+  if (expand) {
+    materialName.value = elemName
+
+    elem.style.cssText += 'position: fixed; left: 0; top: 0;';
+    elem.style.width = '100vw' // document.body.clientWidth + 'px';
+    elem.style.height = '100vh' // document.body.clientHeight + 'px';
+
+    console.log(firstDiv.offsetHeight )
+    firstIFrame.style.height = (elem.offsetHeight  - firstDiv.offsetHeight) + 'px';
+  } else {
+    materialName.value = ""
+
+    elem.style.cssText = '';
+    elem.style.width = '';
+    elem.style.height = '';
+    firstIFrame.style.height = '';
+  }
+  console.log(materialName.value, showElements.value)
 }
 
 </script>
@@ -101,15 +127,17 @@ function getPdf(pdfId) {
         <div class="d-inline-block rounded-pill bg-secondary text-primary py-1 px-3 mb-3">{{ lesson.title }}</div>
         <h4 class="mb-5 text-black-50">{{ lesson.description }}</h4>
       </div>
-      <div v-for="(material, index) in lesson.materials" class="mb-5">
-        <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden h-100">
+      <div v-for="(material, index) in lesson.materials" class="mb-5" :id="'material-sect-'+index">
+        <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden">
           <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('material', index, material)">
             <div class="d-inline-block bg-primary text-white rounded-bottom fs-5 pb-1 px-3 mb-2">
               <small>
                 <i :class="getIconClassByType(material.type)" class="ms-2"></i>
                 {{ material.title }}
                 <i v-if="!hideTasks['material'][index]" class="fas fa-chevron-circle-down ms-4"></i>
-                <i v-if="hideTasks['material'][index]" class="fas fa-chevron-circle-up ms-4"></i>
+                <i v-if="hideTasks['material'][index] && showElements" class="fas fa-chevron-circle-up ms-4"></i>
+                <i v-if="hideTasks['material'][index] && showElements && material.type=='pdf'" class="fas fa-expand ms-4" @click.stop="expandCompress(true, index)"></i>
+                <i v-if="hideTasks['material'][index] && !showElements && material.type=='pdf'" class="fas fa-compress ms-4" @click.stop="expandCompress(false, index)"></i>
               </small>
             </div>
           </div>
@@ -125,7 +153,7 @@ function getPdf(pdfId) {
       </div>
 
       <div v-for="(task, index) in lesson.tasks" class="mb-5">
-        <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden h-100">
+        <div class="causes-item d-flex flex-column bg-white border-top border-5 border-primary rounded-top overflow-hidden">
           <div class="text-center p-4 pt-0 pb-0" @click="changeVisability('task', index, task)">
             <div class="d-inline-block bg-primary text-white rounded-bottom fs-5 pb-1 px-3 mb-2">
               <small>
