@@ -1,7 +1,7 @@
 <script setup>
 // https://stackoverflow.com/questions/13432821/is-it-possible-to-add-request-headers-to-an-iframe-src-request
 
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import CourseShort from "/src/components/myTheme/CourseShort.vue";
 import PageHeader from "/src/components/myTheme/PageHeader.vue";
 import {CoursesDataGetter} from "/src/services/api/CoursesDataGetter";
@@ -10,6 +10,7 @@ import {PdfFrameContent} from "/src/services/api/PdfFrameContent.js";
 import {BaseMethods} from "/src/services/api/BaseMethods.js";
 import {useMaterialFullScreen} from "/src/services/api/materialFullScrean.js";
 
+const spinnerShow = inject('spinnerShow')
 const lesson = ref({})
 const hideTasks = ref({
   'material': {},
@@ -39,11 +40,13 @@ onMounted(() => {
 });
 
 async function getFrameHtml(file, type, frame) {
+  spinnerShow.value.push('getPdfFile')
   return CoursesDataGetter.getPdf(file, type).then( res => {
     if (res.success) {
       const html = PdfFrameContent.getHtml(res.data.content)
       frame.srcdoc = html
     }
+    spinnerShow.value = spinnerShow.value.filter(e => e !== 'getPdfFile')
   })
 }
 
