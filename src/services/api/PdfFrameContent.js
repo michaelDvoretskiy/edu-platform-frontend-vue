@@ -56,13 +56,15 @@ export class PdfFrameContent {
 
       <canvas id="the-canvas"></canvas>
 
-      <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script>
+      <!-- <script src="https://mozilla.github.io/pdf.js/build/pdf.js"></script> -->
+      <script src="/assets/js/pdf.min.js"></script>
       <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('contextmenu', event => event.preventDefault());
 
         var pdfjsLib = window['pdfjs-dist/build/pdf'];
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+        //pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://mozilla.github.io/pdf.js/build/pdf.worker.js';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/js/pdf.worker.min.js';
 
         var pdfDoc = null,
         pageNum = 1,

@@ -10,6 +10,7 @@ import {checkLocale, setLocale} from "/src/locales/index.js";
 import {Auth} from "/src/services/api/Auth";
 import {BaseMethods} from "/src/services/api/BaseMethods.js";
 import {useMaterialFullScreen} from "./services/api/materialFullScrean";
+import TestQuestion from "/src/components/myTheme/TestQuestion.vue";
 
 const infoData = ref({})
 // const spinnerShow = ref(true)
@@ -64,7 +65,7 @@ function showHideSpinner(event) {
   <div v-if="showApp">
     <Spinner :show="(spinnerShow.length!=0)" />
     <HeadMenu v-if="showElements" :infoData="infoData"/>
-
+<!--    <TestQuestion />-->
     <RouterView />
 
     <Footer v-if="showElements" :infoData="infoData"/>

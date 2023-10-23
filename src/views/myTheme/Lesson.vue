@@ -107,7 +107,7 @@ function expandCompress(expand, index) {
     elem.style.width = '100vw' // document.body.clientWidth + 'px';
     elem.style.height = '100vh' // document.body.clientHeight + 'px';
 
-    console.log(firstDiv.offsetHeight )
+    // console.log(firstDiv.offsetHeight )
     firstIFrame.style.height = (elem.offsetHeight  - firstDiv.offsetHeight) + 'px';
   } else {
     materialName.value = ""
@@ -117,7 +117,7 @@ function expandCompress(expand, index) {
     elem.style.height = '';
     firstIFrame.style.height = '';
   }
-  console.log(materialName.value, showElements.value)
+  // console.log(materialName.value, showElements.value)
 }
 
 </script>
