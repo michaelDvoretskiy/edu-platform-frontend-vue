@@ -4,7 +4,8 @@ import {onMounted, ref, reactive} from "vue";
 import {useTests} from "../../services/api/tests";
 
 const props = defineProps({
-  question: Object
+  question: Object,
+  answers: Object
 })
 
 let userAnswer = []

@@ -117,7 +117,9 @@ function annulTest() {
     </div>
     <div class="row mt-3">
       <div class="col col-lg-6 offset-lg-3 text-sm-center">
-        <TestQuestion :question="testData.questions[currentQuestionNumber]" />
+        <TestQuestion
+            :question="testData.questions[currentQuestionNumber]"
+            :answers="testData.answers[currentQuestionNumber]"/>
 <!--        <app-question-->
 <!--            [question]="testContent[testPills[currentQuestionIndex].number]"-->
 <!--            [answers]="testPills[currentQuestionIndex].answer"-->
